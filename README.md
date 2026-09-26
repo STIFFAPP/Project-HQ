@@ -1,154 +1,44 @@
-# Project HQ
+# Project HQ — Full Interactive Starter
 
-Project HQ is a personal command centre for turning ideas into prioritised projects, tasks, purchases and content workflows.
+A local-first project command centre for Projects, Ideas, To-Do, Purchases and KB Garage content.
 
-## Core idea
+## Working now
+- Create/delete projects, ideas, tasks and purchases
+- Drag projects to reorder global priority
+- Drag tasks within/between Today, This Week, Next Month and Backlog
+- Category filtering
+- Project detail editing
+- Purchase states: Need / Ordered / Received / Installed
+- Purchase costs, quantities and URLs
+- Purchase queue automatically sorted by project priority and blocking state
+- KB Garage/content workspace
+- Editable video style, script, thumbnail notes, editing notes and shot checklist
+- Optional shared Notion link with Open Notion button
+- Dashboard roll-up
+- Browser localStorage persistence
+- JSON export/import backup
+- Supabase-ready migration and client placeholder
 
-The **project order is the master priority**.
-
-A high-priority project should surface:
-- its next actions higher on the dashboard;
-- its required purchases higher in the purchase queue;
-- its linked content work more prominently.
-
-## Included starter features
-
-- Dashboard
-- Projects
-- Ideas inbox
-- To-do board:
-  - Today
-  - This Week
-  - Next Month
-  - Backlog
-- Categories:
-  - Personal
-  - Business
-  - Hobby
-  - KB Garage
-  - Eden GMC
-  - Life
-  - Other
-- Project detail structure
-- Parts / purchase queue
-- Content Projects section
-- Optional Notion link per project
-- KB Garage content fields/placeholders:
-  - Video style
-  - Shot list
-  - Shot checklist
-  - Script
-  - Thumbnail notes
-  - Editing notes
-- Supabase-ready schema
-- dnd-kit dependencies for project/task drag-and-drop
-
-## Tech
-
-- React
-- Vite
-- React Router
-- dnd-kit
-- Supabase (optional backend)
-- localStorage fallback for the starter build
-
-## Run locally
-
+## Run
 ```bash
 npm install
 npm run dev
 ```
 
-## Environment
+## Supabase
+Copy `.env.example` to `.env`, create a Supabase project, run `supabase/migrations/001.sql`, then add the URL and anon key. The UI currently uses the local repository so it works immediately. `src/supabase.js` is the boundary for replacing it with authenticated cloud persistence.
 
-Copy:
+## Priority model
+Project drag order is the master priority. Purchases marked `Need` are automatically sorted by:
+1. Project priority
+2. Blocking item first
+3. Item position
 
-```bash
-cp .env.example .env
-```
-
-Then add Supabase credentials if you want persistence/auth:
-
-```env
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
-```
-
-If they are omitted, the starter app uses local browser storage.
-
-## Repository structure
-
-```text
-project-hq/
-├── .github/workflows/
-├── supabase/migrations/
-├── src/
-│   ├── components/
-│   │   ├── content/
-│   │   ├── layout/
-│   │   ├── projects/
-│   │   ├── purchases/
-│   │   ├── tasks/
-│   │   └── ui/
-│   ├── data/
-│   ├── lib/
-│   ├── pages/
-│   └── styles/
-├── .env.example
-├── index.html
-├── package.json
-└── README.md
-```
-
-## Data relationships
-
-```text
-CATEGORY
-   |
-PROJECT (priority_position)
-   |---- TASKS (time_bucket + position)
-   |---- PARTS / PURCHASES
-   |---- CONTENT PROJECT
-   |         |
-   |         ---- NOTION URL
-   |         ---- VIDEO STYLE
-   |         ---- SHOT LIST
-   |         ---- SCRIPT
-   |
-   ---- NOTES / COSTS (future)
-```
-
-## Priority logic
-
-`projects.priority_position` is the primary ordering value.
-
-Purchase queue ordering should use:
-
-1. project priority;
-2. purchase blocking status;
-3. purchase priority;
-4. item position.
-
-Task ordering should use:
-
-1. time bucket (`today`, `this_week`, `next_month`, `backlog`);
-2. manual position;
-3. project priority as useful secondary context.
+Tasks have an independent time horizon and manual drag order.
 
 ## Notion
+The current integration safely stores a shared Notion page URL only. It does not store Notion secrets. OAuth/API sync can be added server-side later.
 
-The starter version supports a shared Notion URL. Clicking **Open Notion** opens the linked page in a new tab/device handler.
 
-A production OAuth/API integration should be implemented server-side. Never put a Notion secret in frontend source code.
-
-## Next implementation steps
-
-1. Connect CRUD operations to Supabase.
-2. Add Supabase Auth.
-3. Wire `ProjectPriorityList` to dnd-kit and persist reordered `priority_position` values.
-4. Wire task cards to draggable time buckets.
-5. Add purchase states: Need / Ordered / Received / Installed.
-6. Add dedicated project editor/detail route.
-7. Add full KB Garage content-production editor.
-8. Add Notion OAuth/API integration if bidirectional sync is wanted.
-9. Add JSON backup/import/export.
+## GitHub Pages
+This build is preconfigured for the `Project-HQ` repository and deploys automatically from `main` using `.github/workflows/deploy.yml`.
