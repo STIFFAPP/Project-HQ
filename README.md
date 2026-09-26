@@ -46,3 +46,7 @@ This web app does not control a separate Whisper iPhone app directly. The Captur
 The current version uses browser `localStorage`, preserving the existing `project-hq-full-v1` data key. Existing projects/tasks/purchases from the earlier Project HQ version are retained; the new Inbox field is added automatically.
 
 Use **Backup** regularly to export a JSON copy of your data.
+
+
+## Notes export
+Inbox captures can be downloaded individually as TXT, all together as TXT, or all together as CSV. The full JSON backup remains available from the sidebar. Raw capture text is preserved when a capture is sorted and archived.
