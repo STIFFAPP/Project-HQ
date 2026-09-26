@@ -1,44 +1,48 @@
-# Project HQ — Full Interactive Starter
+# Project HQ — Capture First Edition
 
-A local-first project command centre for Projects, Ideas, To-Do, Purchases and KB Garage content.
+A lightweight personal project command centre built around one rule: **capture now, organise later**.
 
-## Working now
-- Create/delete projects, ideas, tasks and purchases
-- Drag projects to reorder global priority
-- Drag tasks within/between Today, This Week, Next Month and Backlog
-- Category filtering
-- Project detail editing
-- Purchase states: Need / Ordered / Received / Installed
-- Purchase costs, quantities and URLs
-- Purchase queue automatically sorted by project priority and blocking state
-- KB Garage/content workspace
-- Editable video style, script, thumbnail notes, editing notes and shot checklist
-- Optional shared Notion link with Open Notion button
-- Dashboard roll-up
-- Browser localStorage persistence
-- JSON export/import backup
-- Supabase-ready migration and client placeholder
+## Main workflow
 
-## Run
+1. Open **Inbox** on your phone.
+2. Tap **Capture**.
+3. Dictate into the large text field using your Whisper keyboard/app dictation (or type/paste text).
+4. Save it to the Inbox without classifying it.
+5. Later, open the capture and turn it into a Task, Purchase, Idea, or Project.
+
+Project HQ keeps the original capture archived after sorting so the source thought is not lost.
+
+## Navigation
+
+- Inbox — raw captures waiting to be sorted
+- Today — current actions, project priority and next purchases
+- Projects — ordered master project list
+- Purchases — purchase queue driven by project priority
+- Content — KB Garage/content production workspace
+
+## Run locally
+
 ```bash
 npm install
 npm run dev
 ```
 
-## Supabase
-Copy `.env.example` to `.env`, create a Supabase project, run `supabase/migrations/001.sql`, then add the URL and anon key. The UI currently uses the local repository so it works immediately. `src/supabase.js` is the boundary for replacing it with authenticated cloud persistence.
-
-## Priority model
-Project drag order is the master priority. Purchases marked `Need` are automatically sorted by:
-1. Project priority
-2. Blocking item first
-3. Item position
-
-Tasks have an independent time horizon and manual drag order.
-
-## Notion
-The current integration safely stores a shared Notion page URL only. It does not store Notion secrets. OAuth/API sync can be added server-side later.
-
-
 ## GitHub Pages
-This build is preconfigured for the `Project-HQ` repository and deploys automatically from `main` using `.github/workflows/deploy.yml`.
+
+The repo already includes `.github/workflows/deploy.yml` and `vite.config.js` with:
+
+```js
+base: '/Project-HQ/'
+```
+
+Push the files to the `main` branch of the `Project-HQ` repository. GitHub Actions will build and deploy the site.
+
+## Whisper note
+
+This web app does not control a separate Whisper iPhone app directly. The Capture screen is intentionally designed so you can focus the text field and use Whisper as your phone's dictation/keyboard input, or paste a Whisper transcript. The text then saves locally in Project HQ.
+
+## Storage
+
+The current version uses browser `localStorage`, preserving the existing `project-hq-full-v1` data key. Existing projects/tasks/purchases from the earlier Project HQ version are retained; the new Inbox field is added automatically.
+
+Use **Backup** regularly to export a JSON copy of your data.
